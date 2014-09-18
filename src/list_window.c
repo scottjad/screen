@@ -414,6 +414,18 @@ gl_Window_input(struct ListData *ldata, char **inp, int *len)
       }
       break;
 
+    case 013: /* ^K -- Kill window without confirming */
+      {
+        struct ListRow *old = ldata->selected;
+        if (ldata->selected->next)
+          ldata->selected = old->next;
+        else if (!ldata->selected->prev)
+          ldata->selected = old->prev;
+
+        KillWindow(win);
+      }
+      break;
+
     case 033:	/* escape */
     case 007:	/* ^G */
       if (!WLIST_FOR_GROUP(wdata))
